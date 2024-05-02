@@ -22,10 +22,13 @@ pub struct Point {
 #[wasm_bindgen]
 impl Chart {
     /// Draw function on the canvas element by id.
-    pub fn cobb_douglas(canvas_id: &str, exponent: f32) -> Result<Chart, JsValue> {
-        let map_coord = function::draw_function(canvas_id, exponent).map_err(|err| err.to_string())?;
+    pub fn cobb_douglas(canvas_id: &str, exponent: f32, utility: f32) -> Result<Chart, JsValue> {
+        let map_coord = function::draw_function(canvas_id, exponent, utility).map_err(|err| err.to_string())?;
         Ok(Chart {
             convert: Box::new(move |coord| map_coord(coord).map(|(x, y)| (x.into(), y.into()))),
         })
+    }
+    pub fn coord(&self, x: i32, y: i32) -> Option<Point> {
+        (self.convert)((x, y)).map(|(x, y)| Point { x, y })
     }
 }
