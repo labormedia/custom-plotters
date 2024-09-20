@@ -1,0 +1,3 @@
+[worskpace]
+resolver = "2"
+members = ["plot3d"]
